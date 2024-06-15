@@ -8,18 +8,18 @@ import retrofit2.http.Query
 interface MediaApi {
 
     @GET("{type}/{category}")
-    suspend fun getMovieListAndTvSeriesList(
+    suspend fun getMoviesAndTvSeriesList(
         @Path("type") type: String,
         @Path("category") category: String,
-        @Query("pages") page: Int,
+        @Query("page") page: Int,
         @Query("api_key") apiKey: String = MediaApi.API_KEY,
     ): MediaListDto
 
-    @GET("trending/{type}/{time_window}")
+    @GET("trending/{type}/{time}")
     suspend fun getTrendingMovieListAndSeriesList(
         @Path("type") type: String,
-        @Path("time_window") timeWindow: String,
-        @Query("pages") page: Int,
+        @Path("time") time: String,
+        @Query("page") page: Int,
         @Query("api_key") apiKey: String = MediaApi.API_KEY,
     ): MediaListDto
 
@@ -27,7 +27,7 @@ interface MediaApi {
     @GET("search/multi")
     suspend fun getSearchList(
         @Path("query") query: String,
-        @Query("pages") page: Int,
+        @Query("page") page: Int,
         @Query("api_key") apiKey: String = MediaApi.API_KEY,
     ) : MediaListDto
 

@@ -11,7 +11,7 @@ interface MediaRepository {
         category: String,
     ): Media
 
-    suspend fun getMediaListByTypeAndCategory(
+    suspend fun getMoviesAndTvSeriesList(
         fetchFromRemote: Boolean,
         isRefresh: Boolean,
         mediaType: String,

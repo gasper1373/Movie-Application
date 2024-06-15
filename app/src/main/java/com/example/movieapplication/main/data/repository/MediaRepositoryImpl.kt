@@ -29,14 +29,14 @@ class MediaRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getMediaListByTypeAndCategory(
+    override suspend fun getMoviesAndTvSeriesList(
         fetchFromRemote: Boolean,
         isRefresh: Boolean,
         mediaType: String,
         category: String,
         page: Int,
-        apiKey: String,
-    ): Flow<Resource<List<Media>>>  {
+        apiKey: String
+    ): Flow<Resource<List<Media>>> {
         return flow {
 
         emit(Resource.Loading(true))
