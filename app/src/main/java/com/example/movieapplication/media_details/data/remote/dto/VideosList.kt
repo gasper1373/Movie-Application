@@ -1,6 +1,6 @@
 package com.example.movieapplication.media_details.data.remote.dto
 
-data class VideoListDto(
+data class VideosList(
     val id: Int,
-    val results: List<VideoListDto>
+    val results: List<VideoDto>
 )

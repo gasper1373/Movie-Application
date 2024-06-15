@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [GenreEntity::class],
-    version = 1
+    version = 1, exportSchema = false
 )
 abstract class GenresDatabase : RoomDatabase() {
     abstract val genreDao: GenreDao

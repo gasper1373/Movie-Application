@@ -1,8 +1,10 @@
 package com.example.movieapplication.main.data.local.media
 
+import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 
+@Dao
 interface MediaDao {
     @Upsert
     suspend fun upsertMediaList(mediaEntities: List<MediaEntity>)

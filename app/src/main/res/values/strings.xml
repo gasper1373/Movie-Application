@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Movie Application</string>
+    <string name="couldn_load_genres">Couldn\'t load genres</string>
+    <string name="error_data">Couldn\'t load data</string>
 </resources>

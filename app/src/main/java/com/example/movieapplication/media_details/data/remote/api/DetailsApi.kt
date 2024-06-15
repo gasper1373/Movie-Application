@@ -1,9 +1,8 @@
 package com.example.movieapplication.media_details.data.remote.api
 
-import com.example.movieapplication.main.data.remote.dto.MediaDto
 import com.example.movieapplication.main.data.remote.dto.MediaListDto
 import com.example.movieapplication.media_details.data.remote.dto.DetailsDto
-import com.example.movieapplication.media_details.data.remote.dto.VideoListDto
+import com.example.movieapplication.media_details.data.remote.dto.VideosList
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -11,26 +10,26 @@ import retrofit2.http.Query
 interface DetailsApi {
 
     @GET("{type}/{id}")
-    suspend fun gerDetails(
+    suspend fun getDetails(
         @Path("type") type: String,
-        @Path("id") id: String,
+        @Path("id") id: Int,
         @Query("api_key") apiKey: String,
     ): DetailsDto
 
     @GET("{type}/{id}/similar")
     suspend fun getSimilar(
         @Path("type") type: String,
-        @Path("id") id: String,
+        @Path("id") id: Int,
         @Query("page") page: Int,
         @Query("api_key") apiKey: String,
     ): MediaListDto
 
     @GET("{type}/{id}/videos")
-    suspend fun getVideos(
+    suspend fun getVideosList(
         @Path("type") type: String,
-        @Path("id") id: String,
+        @Path("id") id: Int,
         @Query("api_key") apiKey: String,
-    ): VideoListDto
+    ): VideosList
 
 
     companion object {

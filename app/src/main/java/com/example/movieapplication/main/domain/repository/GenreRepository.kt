@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface GenreRepository {
     suspend fun getGenres(
         fetchFromRemote: Boolean,
-        mediaType: String,
-        page: Int,
+        type: String,
+        apiKey:String
     ): Flow<Resource<List<Genre>>>
 }

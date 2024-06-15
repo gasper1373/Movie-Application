@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface GenresApi {
 
     @GET("genre/{type}/list")
-    suspend fun getGenresCategory(
+    suspend fun getGenresList(
         @Path("type") category: String,
         @Query("api_key") apiKey: String = API_KEY,
     ) : GenresListDto

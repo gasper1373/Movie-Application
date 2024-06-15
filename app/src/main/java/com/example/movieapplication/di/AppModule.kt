@@ -8,6 +8,7 @@ import com.example.movieapplication.main.data.local.genres.GenresDatabase
 import com.example.movieapplication.main.data.local.media.MediaDatabase
 import com.example.movieapplication.main.data.remote.api.GenresApi
 import com.example.movieapplication.main.data.remote.api.MediaApi
+import com.example.movieapplication.media_details.data.remote.api.DetailsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,7 +54,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesMediaDatabase(app: Application): MediaDatabase{
+    fun providesDetailsApi(): DetailsApi {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(DetailsApi.BASE_URL)
+            .client(client)
+            .build()
+            .create(DetailsApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesMediaDatabase(app: Application): MediaDatabase {
         return Room.databaseBuilder(
             app,
             MediaDatabase::class.java,
@@ -63,7 +75,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesGenresDatabase(app : Application):GenresDatabase{
+    fun providesGenresDatabase(app: Application): GenresDatabase {
         return Room.databaseBuilder(
             app,
             GenresDatabase::class.java,

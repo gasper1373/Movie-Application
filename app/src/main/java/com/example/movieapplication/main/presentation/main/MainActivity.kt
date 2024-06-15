@@ -1,4 +1,4 @@
-package com.example.movieapplication
+package com.example.movieapplication.main.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,8 +14,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MovieApplicationTheme {
-
-
             }
         }
     }

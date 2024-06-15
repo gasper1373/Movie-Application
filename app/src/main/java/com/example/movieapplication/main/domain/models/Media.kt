@@ -23,10 +23,13 @@ data class Media(
     val poster_path: String,
     val release_date: String,
     val title: String,
+    val runtime: Int?,
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int,
     var category: String,
-    val videos: List<String>,
+    var tagline: String?,
+    var status: String?,
+    val videos: List<String>?,
     val similarMediaList: List<Int>,
-): Parcelable
+) : Parcelable

@@ -1,6 +1,10 @@
-package com.example.movieapplication.media_details.data.remote.dto
+package com.example.movieapplication.media_details.domain.models
 
-data class VideoDto(
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Video(
     val id: String,
     val iso_3166_1: String,
     val iso_639_1: String,
@@ -11,4 +15,4 @@ data class VideoDto(
     val site: String,
     val size: Int,
     val type: String
-)
+): Parcelable

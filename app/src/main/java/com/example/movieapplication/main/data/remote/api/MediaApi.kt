@@ -1,6 +1,5 @@
 package com.example.movieapplication.main.data.remote.api
 
-import com.example.movieapplication.main.data.remote.dto.MediaDto
 import com.example.movieapplication.main.data.remote.dto.MediaListDto
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,7 +25,7 @@ interface MediaApi {
 
 
     @GET("search/multi")
-    suspend fun getSearch(
+    suspend fun getSearchList(
         @Path("query") query: String,
         @Query("pages") page: Int,
         @Query("api_key") apiKey: String = MediaApi.API_KEY,
