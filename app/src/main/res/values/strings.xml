@@ -4,4 +4,10 @@
     <string name="error_data">Couldn\'t load data</string>
     <string name="search_for_a_movie_or_tv_series">Search Movie or Tv Series</string>
     <string name="go_back">Go back</string>
+    <string name="dislike">Dislike</string>
+    <string name="like">Like</string>
+    <string name="trending">Trending</string>
+    <string name="tv_series">Tv series</string>
+    <string name="recommended">Recommended</string>
+    <string name="top_rated">Top Rated</string>
 </resources>
