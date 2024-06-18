@@ -46,7 +46,7 @@ import coil.size.Size
 import com.example.movieapplication.R
 import com.example.movieapplication.main.data.remote.api.MediaApi.Companion.IMAGE_BASE_URL
 import com.example.movieapplication.main.domain.models.Media
-import com.example.movieapplication.main.presentation.main.MainState
+import com.example.movieapplication.main.presentation.main.MainUiState
 import com.example.movieapplication.main.presentation.main.MainUiEvents
 import com.example.movieapplication.util.Constants
 import com.example.movieapplication.util.getAverageColor
@@ -55,7 +55,7 @@ import com.example.movieapplication.util.getAverageColor
 fun MediaItem(
     media: Media,
     onClick: () -> Unit,
-    mainState: MainState,
+    mainUiState: MainUiState,
     onEvents: (MainUiEvents) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -173,8 +173,8 @@ fun MediaItem(
             val genres = GenresProvider(
                 genre_ids = media.genre_ids, allGenres =
                 if (media.media_type == Constants.MOVIE)
-                    mainState.moviesGenresList
-                else mainState.tvGenresList
+                    mainUiState.moviesGenresList
+                else mainUiState.tvGenresList
             )
             Text(
                 modifier = Modifier.padding(

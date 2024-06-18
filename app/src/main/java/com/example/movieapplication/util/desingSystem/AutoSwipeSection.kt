@@ -13,14 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.movieapplication.main.presentation.main.MainState
+import com.example.movieapplication.main.presentation.main.MainUiState
 
 @Composable
 fun AutoSwipe(
     type: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    mainState: MainState,
+    mainUiState: MainUiState,
 ) {
     Column {
         Row(
@@ -37,7 +37,7 @@ fun AutoSwipe(
             )
         }
         AutoSwipeImage(
-            mediaList = mainState.specialList.take(7),
+            mediaList = mainUiState.specialList.take(7),
             onMediaClick = {},
             modifier = Modifier
                 .height(200.dp)

@@ -29,7 +29,7 @@ class MainViewModel @Inject constructor(
     private val genreRepository: GenreRepository,
 ) : ViewModel() {
 
-    private val _mainUiState = MutableStateFlow(MainState())
+    private val _mainUiState = MutableStateFlow(MainUiState())
     val mainUiState = _mainUiState.asStateFlow()
 
     //TODO() splashScreen

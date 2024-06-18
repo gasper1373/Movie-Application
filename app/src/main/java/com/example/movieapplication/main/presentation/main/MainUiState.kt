@@ -3,7 +3,7 @@ package com.example.movieapplication.main.presentation.main
 import com.example.movieapplication.main.domain.models.Genre
 import com.example.movieapplication.main.domain.models.Media
 
-data class MainState(
+data class MainUiState(
     val popularMoviesPage: Int = 1,
     val topRatedMoviesPage: Int = 1,
     val nowPlayingMoviesPage: Int = 1,

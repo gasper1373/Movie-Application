@@ -19,14 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movieapplication.R
 import com.example.movieapplication.main.presentation.home.MediaHomeScreenSection
-import com.example.movieapplication.main.presentation.main.MainState
+import com.example.movieapplication.main.presentation.main.MainUiState
 import com.example.movieapplication.util.Constants
 
 @Composable
 fun ShouldShowMediaHomeScreenSectionOrShimmer(
     type: String,
     showShimmer: Boolean,
-    mainState: MainState
+    mainUiState: MainUiState
 ) {
 
     val title = when (type) {

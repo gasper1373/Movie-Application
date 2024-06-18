@@ -16,6 +16,7 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.foundation.text2.input.TextFieldLineLimits
+import androidx.compose.foundation.text2.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
@@ -62,7 +63,6 @@ fun SearchBar(
         handleColor = MaterialTheme.colorScheme.primary,
         backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
     )
-
     CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
         BasicTextField2(
             modifier = modifier

@@ -101,4 +101,7 @@ dependencies {
 
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.navigation.compose)
+
+    //Youtube
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
 }
