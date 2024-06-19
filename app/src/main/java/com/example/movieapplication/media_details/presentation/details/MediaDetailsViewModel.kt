@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapplication.main.data.remote.api.GenresApi.Companion.API_KEY
 import com.example.movieapplication.main.domain.repository.MediaRepository
+import com.example.movieapplication.main.presentation.main.MainUiEvents
 import com.example.movieapplication.media_details.data.repository.DetailsRepository
 import com.example.movieapplication.media_details.data.repository.ExtraDetailsRepository
 import com.example.movieapplication.media_details.domain.usecase.MinutesToReadTime
 import com.example.movieapplication.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -56,6 +59,7 @@ class MediaDetailsViewModel @Inject constructor(
                     category = events.category
                 )
             }
+            else -> Unit
         }
     }
 
@@ -201,5 +205,18 @@ class MediaDetailsViewModel @Inject constructor(
         }
     }
 
+    private val _refreshing = MutableStateFlow(false)
+    val refreshing : StateFlow<Boolean> = _refreshing
+
+    fun onRefresh(type:String){
+        viewModelScope.launch {
+            _refreshing.value = true
+            delay(1500)
+            if(type != null){
+                onEvent(MediaDetailsEvents.onRefresh(type = type))
+            }
+            _refreshing.value = false
+        }
+    }
 
 }

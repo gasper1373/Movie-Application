@@ -26,7 +26,8 @@ import com.example.movieapplication.util.Constants
 fun ShouldShowMediaHomeScreenSectionOrShimmer(
     type: String,
     showShimmer: Boolean,
-    mainUiState: MainUiState
+    mainUiState: MainUiState,
+    onClick: () -> Unit,
 ) {
 
     val title = when (type) {
@@ -61,9 +62,9 @@ fun ShouldShowMediaHomeScreenSectionOrShimmer(
             paddingEnd = 16.dp
         )
     } else {
-        MediaHomeScreenSection(
-        //TODO()
-        )
+//        MediaHomeScreenSection(
+//            //TODO()
+//        )
     }
 }
 
@@ -74,7 +75,7 @@ fun ShowHomeShimmer(
     modifier: Modifier = Modifier,
 ) {
 
-    Column (
+    Column(
         modifier = Modifier.padding(top = 16.dp)
     ) {
         Text(

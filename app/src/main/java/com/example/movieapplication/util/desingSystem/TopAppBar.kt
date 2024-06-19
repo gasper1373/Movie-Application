@@ -36,7 +36,9 @@ fun NonFocusedTopBar(
             modifier = Modifier
                 .height(50.dp)
                 .clickable {
-                    onClick()
+                    onClick(
+                        /*TODO*/
+                    )
                 }
                 .padding(horizontal = 8.dp),
             placeholderText = stringResource(R.string.search_for_a_movie_or_tv_series),

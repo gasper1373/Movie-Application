@@ -18,6 +18,7 @@ import com.example.movieapplication.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -185,6 +186,19 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private val _refreshing = MutableStateFlow(false)
+    val refreshing : StateFlow<Boolean> = _refreshing
+
+    fun onRefresh(type:String){
+        viewModelScope.launch {
+            _refreshing.value = true
+            delay(1500)
+            if(type != null){
+                onEvent(MainUiEvents.Refresh(type = type))
+            }
+            _refreshing.value = false
+        }
+    }
 
     private fun loadGenres(fetchFromRemote: Boolean, isMovies: Boolean) {
         viewModelScope.launch {
@@ -223,7 +237,6 @@ class MainViewModel @Inject constructor(
                     }
         }
     }
-
 
     private fun loadTopRatedSeries(fetchFromRemote: Boolean = false, isRefresh: Boolean = false) {
         viewModelScope.launch {

@@ -11,4 +11,11 @@
     <string name="recommended">Recommended</string>
     <string name="top_rated">Top Rated</string>
     <string name="similar_to">Similar to</string>
+    <string name="special">Special</string>
+    <string name="see_all">See all</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="no_video_at_this_momment">No video is available at the moment.</string>
+    <string name="watch_trailer">Watch trailer</string>
+    <string name="overview">Overview</string>
+    <string name="similar">Similar</string>
 </resources>
