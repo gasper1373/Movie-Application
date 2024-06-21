@@ -3,7 +3,6 @@
 package com.example.movieapplication.main.presentation.home
 
 import android.app.Activity
-import android.widget.Space
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,6 +32,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.movieapplication.R
 import com.example.movieapplication.main.presentation.main.MainUiEvents
 import com.example.movieapplication.main.presentation.main.MainUiState
@@ -46,8 +49,9 @@ import com.example.movieapplication.util.desingSystem.shimmerEffect
 import kotlin.math.roundToInt
 
 @Composable
-fun MediaHomeScreenSection(
-    modifier: Modifier = Modifier,
+fun MediaHomeScreen(
+    navController: NavController,
+    bottomBarNavController: NavHostController,
     state: MainUiState,
     onClick: () -> Unit,
     onEvent: (MainUiEvents) -> Unit,

@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.movieapplication.R
 import com.example.movieapplication.media_details.presentation.details.MediaDetailsScreenState
 import com.example.movieapplication.media_details.presentation.details.components.SimilarMediaItem
@@ -27,6 +28,7 @@ import com.example.movieapplication.util.desingSystem.header
 
 @Composable
 fun SimilarMediaScreen(
+    navController: NavController,
     mediaDetailsScreenState: MediaDetailsScreenState,
     name: String,
 ) {

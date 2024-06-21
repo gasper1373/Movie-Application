@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.example.movieapplication.util.desingSystem
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -14,9 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.foundation.text2.BasicTextField2
-import androidx.compose.foundation.text2.input.TextFieldLineLimits
-import androidx.compose.foundation.text2.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
@@ -64,7 +58,7 @@ fun SearchBar(
         backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
     )
     CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
-        BasicTextField2(
+        BasicTextField(
             modifier = modifier
                 .clip(RoundedCornerShape(percent = 50))
                 .background(
@@ -78,13 +72,13 @@ fun SearchBar(
                 text = it
                 onSearch(it)
             },
-            lineLimits = TextFieldLineLimits.SingleLine,
+            singleLine = true,
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             textStyle = TextStyle(
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 17.sp
             ),
-            decorator = { innerTextField ->
+            decorationBox = { innerTextField ->
                 Row(
                     modifier,
                     verticalAlignment = Alignment.CenterVertically
@@ -92,7 +86,7 @@ fun SearchBar(
                     if (leadingIcon != null) leadingIcon()
                     Box(Modifier.weight(1f)) {
                         if (text.isEmpty()) Text(
-                            placeholderText,
+                            text = placeholderText,
                             style = LocalTextStyle.current.copy(
                                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
                                 fontSize = 17.sp
@@ -102,8 +96,8 @@ fun SearchBar(
                     }
                     if (text.isNotEmpty()) {
                         Icon(
-                            Icons.Rounded.Close,
-                            null,
+                            imageVector = Icons.Rounded.Close,
+                            contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                             modifier = Modifier
                                 .padding(horizontal = 8.dp)
@@ -117,6 +111,7 @@ fun SearchBar(
                 }
             }
         )
+
     }
 }
 

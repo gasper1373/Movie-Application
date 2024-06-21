@@ -12,15 +12,15 @@ interface MediaApi {
         @Path("type") type: String,
         @Path("category") category: String,
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = MediaApi.API_KEY,
+        @Query("api_key") apiKey: String = API_KEY,
     ): MediaListDto
 
     @GET("trending/{type}/{time}")
     suspend fun getTrendingMovieListAndSeriesList(
         @Path("type") type: String,
-        @Path("time") time: String,
+        @Path("time") time: String = "day",
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = MediaApi.API_KEY,
+        @Query("api_key") apiKey: String = API_KEY,
     ): MediaListDto
 
 
@@ -28,7 +28,7 @@ interface MediaApi {
     suspend fun getSearchList(
         @Path("query") query: String,
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = MediaApi.API_KEY,
+        @Query("api_key") apiKey: String = API_KEY,
     ) : MediaListDto
 
 

@@ -16,6 +16,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -28,15 +29,21 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.movieapplication.R
 import com.example.movieapplication.main.presentation.main.MainUiEvents
 import com.example.movieapplication.main.presentation.main.MainUiState
 import com.example.movieapplication.main.presentation.main.MainViewModel
 import com.example.movieapplication.ui.theme.MovieApplicationTheme
+import com.example.movieapplication.util.Constants.popularScreen
 import com.example.movieapplication.util.Constants.recommendedListScreen
 import com.example.movieapplication.util.Constants.topRatedAllListScreen
 import com.example.movieapplication.util.Constants.trendingAllListScreen
@@ -63,17 +70,15 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MediaListScreen(
+fun MediaListScreen(
     state: MainUiState,
-    selectedItem: MutableStateFlow<Int>,
-    onNavigateToMediaHome: () -> Unit,
+    selectedItem: MutableState<Int>,
+    navController: NavController,
+    bottomBarNavController: NavHostController,
+    navBackStackEntry: NavBackStackEntry,
     refreshing: Boolean,
     onRefresh: () -> Unit,
     onEvent: (MainUiEvents) -> Unit,
-    onClick: () -> Unit,
-    getType: () -> String?,
-    getTitle: (String?) -> String,
-    modifier: Modifier = Modifier,
 ) {
 
     val toolbarHeight = with(LocalDensity.current) { 24.dp.roundToPx().toFloat() }
@@ -90,10 +95,10 @@ private fun MediaListScreen(
     }
     BackHandler(enabled = true) {
         selectedItem.value = 0
-        onNavigateToMediaHome()
+        TODO()
     }
     val type = remember {
-        getType()
+        navBackStackEntry.arguments?.getString("type")
     }
     val mediaList = when (type) {
         trendingAllListScreen -> state.trendingAllList
@@ -103,11 +108,18 @@ private fun MediaListScreen(
         else -> state.popularMoviesList
     }
 
-    val title = getTitle(type)
+    val title = when (type) {
+        trendingAllListScreen -> stringResource(id = R.string.trending)
+        topRatedAllListScreen -> stringResource(id = R.string.top_rated)
+        tvSeriesScreen -> stringResource(id = R.string.tv_series)
+        recommendedListScreen -> stringResource(id = R.string.recommended)
+        popularScreen -> stringResource(id = R.string.popular)
+        else -> ""
+    }
 
     val pullToRefreshState = rememberPullToRefreshState()
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
             .nestedScroll(pullToRefreshState.nestedScrollConnection)

@@ -4,6 +4,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    kotlin("plugin.serialization") version "1.9.24"
 }
 
 android {
@@ -71,7 +72,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     //Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     //Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
@@ -80,9 +81,9 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Room
-    implementation("androidx.room:room-runtime:2.5.2")
-    implementation("androidx.room:room-ktx:2.5.2")
-    ksp("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
@@ -93,8 +94,10 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil-compose:2.6.0")
 
+    implementation ("androidx.compose.material3:material3:1.2.1")
+
     // Extended Icons
-    implementation("androidx.compose.material:material-icons-extended:1.6.7")
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
 
     //Pagination
     implementation("androidx.paging:paging-runtime:3.3.0")
@@ -103,5 +106,5 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     //Youtube
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
 }

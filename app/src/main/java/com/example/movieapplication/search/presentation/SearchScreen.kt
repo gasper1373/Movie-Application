@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.movieapplication.main.presentation.main.MainUiState
 import com.example.movieapplication.search.presentation.components.SearchMediaItem
 import com.example.movieapplication.ui.theme.MovieApplicationTheme
@@ -41,7 +42,8 @@ import kotlin.math.roundToInt
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-private fun SearchScreen(
+ fun SearchScreen(
+    navController: NavController,
     state: MainUiState,
     onAction: (SearchScreenUiEvent) -> Unit,
 ) {
@@ -90,15 +92,4 @@ private fun SearchScreen(
         }
     }
 
-}
-
-@Preview
-@Composable
-private fun SearchScreenPreview() {
-    MovieApplicationTheme {
-        SearchScreen(
-            state = MainUiState(),
-            onAction = {}
-        )
-    }
 }

@@ -20,9 +20,5 @@ object Constants {
     const val homeScreen = "searchScreen"
 
     const val unavailable = "Unavailable"
-
-
-
-
     const val GET_TAG = "--> GET https://api.themoviedb.org"
 }

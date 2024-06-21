@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movieapplication.R
-import com.example.movieapplication.main.presentation.home.MediaHomeScreenSection
 import com.example.movieapplication.main.presentation.main.MainUiState
 import com.example.movieapplication.util.Constants
 

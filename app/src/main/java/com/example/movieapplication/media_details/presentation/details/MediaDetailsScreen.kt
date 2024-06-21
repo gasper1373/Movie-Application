@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
@@ -39,6 +40,7 @@ import com.example.movieapplication.main.presentation.moviesAndTvSeries.VideoSec
 @Composable
 fun MediaDetailsScreen(
     modifier: Modifier = Modifier,
+    navController: NavController,
     media: Media,
     onClick: () -> Unit,
     state: MediaDetailsScreenState,
