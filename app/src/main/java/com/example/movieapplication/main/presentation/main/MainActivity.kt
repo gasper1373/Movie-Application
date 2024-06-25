@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
                 Navigation(
                     mainUiState = mainUiState, onEvent = mainViewModel::onEvent
                 )
-
             }
         }
     }

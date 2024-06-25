@@ -17,7 +17,7 @@ interface DetailsApi {
     ): DetailsDto
 
     @GET("{type}/{id}/similar")
-    suspend fun getSimilar(
+    suspend fun getSimilarMediaList(
         @Path("type") type: String,
         @Path("id") id: Int,
         @Query("page") page: Int,

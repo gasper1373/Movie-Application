@@ -9,7 +9,7 @@ interface GenresApi {
 
     @GET("genre/{type}/list")
     suspend fun getGenresList(
-        @Path("type") category: String,
+        @Path("type") genre: String,
         @Query("api_key") apiKey: String = API_KEY,
     ) : GenresListDto
 

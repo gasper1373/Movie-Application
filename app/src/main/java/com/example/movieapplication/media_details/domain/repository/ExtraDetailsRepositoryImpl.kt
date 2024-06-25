@@ -243,7 +243,7 @@ class ExtraDetailsRepositoryImpl @Inject constructor(
     ): List<MediaDto>? {
 
         val remoteSimilarMediaList = try {
-            detailsApi.getSimilar(
+            detailsApi.getSimilarMediaList(
                 type = type,
                 id = id,
                 page = page,

@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.movieapplication.main.presentation.home.MediaHomeScreen
 import com.example.movieapplication.main.presentation.moviesAndTvSeries.SomethingWentWrong
 import com.example.movieapplication.media_details.presentation.details.MediaDetailsEvents
 import com.example.movieapplication.media_details.presentation.details.MediaDetailsScreen

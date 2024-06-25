@@ -22,6 +22,7 @@ class MediaRepositoryImpl @Inject constructor(
     mediaDb: MediaDatabase,
 ) : MediaRepository {
     private val mediaDao = mediaDb.mediaDao
+
     override suspend fun getItem(id: Int, type: String, category: String): Media {
         return mediaDao.getMediaById(id).toMedia(
             category = category,
@@ -35,77 +36,77 @@ class MediaRepositoryImpl @Inject constructor(
         mediaType: String,
         category: String,
         page: Int,
-        apiKey: String
+        apiKey: String,
     ): Flow<Resource<List<Media>>> {
         return flow {
 
-        emit(Resource.Loading(true))
+            emit(Resource.Loading(true))
 
-        val localMediaList = mediaDao.getMediaListByTypeAndCategory(mediaType, category)
+            val localMediaList = mediaDao.getMediaListByTypeAndCategory(mediaType, category)
 
-        val shouldJustLoadFromCache =
-            localMediaList.isNotEmpty() && !fetchFromRemote && !isRefresh
-        if (shouldJustLoadFromCache) {
+            val shouldJustLoadFromCache =
+                localMediaList.isNotEmpty() && !fetchFromRemote && !isRefresh
+            if (shouldJustLoadFromCache) {
 
-            emit(Resource.Success(
-                data = localMediaList.map {
+                emit(Resource.Success(
+                    data = localMediaList.map {
+                        it.toMedia(
+                            type = mediaType,
+                            category = category
+                        )
+                    }
+                ))
+
+                emit(Resource.Loading(false))
+                return@flow
+            }
+
+            var searchPage = page
+            if (isRefresh) {
+                mediaDao.deleteMediaByTypeAndCategory(mediaType, category)
+                searchPage = 1
+            }
+
+            val remoteMediaList = try {
+                mediaApi.getTrendingList(
+                    mediaType, category, searchPage, apiKey
+                ).results
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+                emit(Resource.Loading(false))
+                return@flow
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+                emit(Resource.Loading(false))
+                return@flow
+            }
+
+            remoteMediaList.let { mediaList ->
+                val media = mediaList.map {
                     it.toMedia(
                         type = mediaType,
                         category = category
                     )
                 }
-            ))
 
-            emit(Resource.Loading(false))
-            return@flow
-        }
+                val entities = mediaList.map {
+                    it.toMediaEntity(
+                        type = mediaType,
+                        category = category,
+                    )
+                }
 
-        var searchPage = page
-        if (isRefresh) {
-            mediaDao.deleteMediaByTypeAndCategory(mediaType, category)
-            searchPage = 1
-        }
+                mediaDao.upsertMediaList(entities)
 
-        val remoteMediaList = try {
-            mediaApi.getTrendingMovieListAndSeriesList(
-                mediaType, category, searchPage, apiKey
-            ).results
-        } catch (e: IOException) {
-            e.printStackTrace()
-            emit(Resource.Error("Couldn't load data"))
-            emit(Resource.Loading(false))
-            return@flow
-        } catch (e: HttpException) {
-            e.printStackTrace()
-            emit(Resource.Error("Couldn't load data"))
-            emit(Resource.Loading(false))
-            return@flow
-        }
-
-        remoteMediaList.let { mediaList ->
-            val media = mediaList.map {
-                it.toMedia(
-                    type = mediaType,
-                    category = category
+                emit(
+                    Resource.Success(data = media)
                 )
+                emit(Resource.Loading(false))
             }
-
-            val entities = mediaList.map {
-                it.toMediaEntity(
-                    type = mediaType,
-                    category = category,
-                )
-            }
-
-            mediaDao.upsertMediaList(entities)
-
-            emit(
-                Resource.Success(data = media)
-            )
-            emit(Resource.Loading(false))
         }
     }
-}
 
     override suspend fun getTrendingMediaList(
         fetchFromRemote: Boolean,
@@ -145,7 +146,7 @@ class MediaRepositoryImpl @Inject constructor(
             }
 
             val remoteMediaList = try {
-                mediaApi.getTrendingMovieListAndSeriesList(
+                mediaApi.getTrendingList(
                     type, timeWindow, searchPage, apiKey
                 ).results
             } catch (e: IOException) {

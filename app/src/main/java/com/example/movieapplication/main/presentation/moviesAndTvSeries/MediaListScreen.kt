@@ -17,11 +17,8 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -30,19 +27,14 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.movieapplication.R
 import com.example.movieapplication.main.presentation.main.MainUiEvents
 import com.example.movieapplication.main.presentation.main.MainUiState
-import com.example.movieapplication.main.presentation.main.MainViewModel
-import com.example.movieapplication.ui.theme.MovieApplicationTheme
 import com.example.movieapplication.util.Constants.popularScreen
 import com.example.movieapplication.util.Constants.recommendedListScreen
 import com.example.movieapplication.util.Constants.topRatedAllListScreen
@@ -50,10 +42,8 @@ import com.example.movieapplication.util.Constants.trendingAllListScreen
 import com.example.movieapplication.util.Constants.tvSeriesScreen
 import com.example.movieapplication.util.desingSystem.MediaItem
 import com.example.movieapplication.util.desingSystem.NonFocusedTopBar
-import com.example.movieapplication.util.desingSystem.ShimmerEffect
+import com.example.movieapplication.util.desingSystem.ListShimmerEffect
 import com.example.movieapplication.util.desingSystem.header
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlin.math.roundToInt
 
 //@Composable
@@ -125,9 +115,8 @@ fun MediaListScreen(
             .nestedScroll(pullToRefreshState.nestedScrollConnection)
     ) {
         if (mediaList.isEmpty()) {
-            ShimmerEffect(
+            ListShimmerEffect(
                 title = title,
-                radius = 24
             )
         } else {
             val listState = rememberLazyGridState()

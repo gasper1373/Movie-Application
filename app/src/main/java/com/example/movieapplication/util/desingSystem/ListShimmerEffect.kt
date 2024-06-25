@@ -23,9 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ShimmerEffect(
+fun ListShimmerEffect(
     title: String,
-    radius: Int,
 ) {
     LazyVerticalGrid(
         modifier = Modifier.background(MaterialTheme.colorScheme.surface),
@@ -38,10 +37,11 @@ fun ShimmerEffect(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    modifier = Modifier.padding(
-                        top = 16.dp,
-                        start = 32.dp
-                    ),
+                    modifier = Modifier
+                        .padding(
+                            top = 16.dp,
+                            start = 32.dp
+                        ),
                     textAlign = TextAlign.Center,
                     text = title,
                     color = MaterialTheme.colorScheme.onBackground,
@@ -53,22 +53,28 @@ fun ShimmerEffect(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp, start = 8.dp, end = 8.dp)
-                    .clip(RoundedCornerShape(24.dp))
+                    .padding(
+                        top = 16.dp, start = 8.dp, end = 8.dp
+                    )
+                    .clip(
+                        RoundedCornerShape(24.dp)
+                    )
                     .background(MaterialTheme.colorScheme.secondaryContainer)
             ) {
                 Box(
                     modifier = Modifier
                         .height(240.dp)
                         .fillMaxWidth()
+                        .padding(6.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .shimmerEffect()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Box(
                     modifier = Modifier
+                        .fillMaxWidth(0.9f)
                         .height(15.dp)
-                        .padding(start = 15.dp)
+                        .padding(start = 12.dp)
                         .clip(RoundedCornerShape(8.dp))
                         .shimmerEffect()
                 )

@@ -47,7 +47,7 @@ class MainViewModel @Inject constructor(
         loadTopRatedMovies(fetchFromRemote)
         loadNowPlayingMovies(fetchFromRemote, true)
         loadTopRatedSeries(fetchFromRemote, true)
-        loadPopularSeries(fetchFromRemote, true)
+        loadPopularTvSeries(fetchFromRemote, true)
         loadTrendingAll(fetchFromRemote)
 
         loadGenres(
@@ -55,7 +55,7 @@ class MainViewModel @Inject constructor(
             isMovies = true
         )
         loadGenres(
-            fetchFromRemote,
+            fetchFromRemote = fetchFromRemote,
             isMovies = false
         )
     }
@@ -77,9 +77,7 @@ class MainViewModel @Inject constructor(
                     isMovies = false
                 )
                 when (event.type) {
-
                     Constants.homeScreen -> {
-
                         loadTrendingAll(
                             fetchFromRemote = true,
                             isRefresh = true
@@ -113,7 +111,7 @@ class MainViewModel @Inject constructor(
                     }
 
                     Constants.tvSeriesScreen -> {
-                        loadPopularSeries(
+                        loadPopularTvSeries(
                             fetchFromRemote = true,
                             isRefresh = true
                         )
@@ -134,7 +132,7 @@ class MainViewModel @Inject constructor(
                         )
 
                         // calling it to have equal top rated and tv series items,
-                        loadPopularSeries(
+                        loadPopularTvSeries(
                             fetchFromRemote = true,
                             isRefresh = true
                         )
@@ -165,7 +163,7 @@ class MainViewModel @Inject constructor(
                     Constants.topRatedAllListScreen -> {
                         loadTopRatedMovies(true)
                         loadTopRatedSeries(true)
-                        loadPopularSeries(true)
+                        loadPopularTvSeries(true)
                     }
 
                     Constants.popularScreen -> {
@@ -173,7 +171,7 @@ class MainViewModel @Inject constructor(
                     }
 
                     Constants.tvSeriesScreen -> {
-                        loadPopularSeries(true)
+                        loadPopularTvSeries(true)
                         loadTopRatedSeries(true)
                     }
 
@@ -187,13 +185,13 @@ class MainViewModel @Inject constructor(
     }
 
     private val _refreshing = MutableStateFlow(false)
-    val refreshing : StateFlow<Boolean> = _refreshing
+    val refreshing: StateFlow<Boolean> = _refreshing
 
-    fun onRefresh(type:String){
+    fun onRefresh(type: String) {
         viewModelScope.launch {
             _refreshing.value = true
             delay(1500)
-            if(type != null){
+            if (type != null) {
                 onEvent(MainUiEvents.Refresh(type = type))
             }
             _refreshing.value = false
@@ -249,23 +247,10 @@ class MainViewModel @Inject constructor(
                 API_KEY
             ).collect { result ->
                 when (result) {
-                    is Resource.Loading -> {
-                        _mainUiState.update {
-                            it.copy(
-                                isLoading = result.isLoading
-                            )
-                        }
-                    }
-
                     is Resource.Success -> {
-
-
                         result.data?.let { mediaList ->
-
                             val shuffledMediaList = mediaList.toMutableList()
                             shuffledMediaList.shuffle()
-
-
                             if (isRefresh) {
                                 _mainUiState.update {
                                     it.copy(
@@ -273,7 +258,8 @@ class MainViewModel @Inject constructor(
                                         topRatedTvSeriesPage = 1
                                     )
                                 }
-                            } else {
+
+                            }else{
                                 _mainUiState.update {
                                     it.copy(
                                         topRatedTvSeriesList =
@@ -282,8 +268,6 @@ class MainViewModel @Inject constructor(
                                     )
                                 }
                             }
-
-
                             createRecommendedMediaAllList(
                                 mediaList = mediaList,
                                 isRefresh = isRefresh
@@ -301,10 +285,19 @@ class MainViewModel @Inject constructor(
                         }
                     }
 
-                    else -> Unit
+                    is Resource.Error -> Unit
+                    is Resource.Loading -> {
+                        _mainUiState.update {
+                            it.copy(
+                                isLoading = result.isLoading
+                            )
+                        }
+                    }
                 }
+
             }
         }
+
     }
 
     private fun loadTrendingAll(fetchFromRemote: Boolean = false, isRefresh: Boolean = false) {
@@ -456,7 +449,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun loadPopularSeries(fetchFromRemote: Boolean = false, isRefresh: Boolean = false) {
+    private fun loadPopularTvSeries(fetchFromRemote: Boolean = false, isRefresh: Boolean = false) {
         viewModelScope.launch {
             mediaRepository.getMoviesAndTvSeriesList(
                 fetchFromRemote,

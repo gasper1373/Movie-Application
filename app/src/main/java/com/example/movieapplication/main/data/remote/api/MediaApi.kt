@@ -16,9 +16,9 @@ interface MediaApi {
     ): MediaListDto
 
     @GET("trending/{type}/{time}")
-    suspend fun getTrendingMovieListAndSeriesList(
+    suspend fun getTrendingList(
         @Path("type") type: String,
-        @Path("time") time: String = "day",
+        @Path("time") time: String ,
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = API_KEY,
     ): MediaListDto

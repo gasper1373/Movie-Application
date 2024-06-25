@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import com.example.movieapplication.R
 import com.example.movieapplication.media_details.presentation.details.MediaDetailsScreenState
 import com.example.movieapplication.media_details.presentation.details.components.SimilarMediaItem
-import com.example.movieapplication.util.desingSystem.ShimmerEffect
+import com.example.movieapplication.util.desingSystem.ListShimmerEffect
 import com.example.movieapplication.util.desingSystem.header
 
 @Composable
@@ -43,9 +43,8 @@ fun SimilarMediaScreen(
     ) {
 
         if (mediaList.isEmpty()) {
-            ShimmerEffect(
+            ListShimmerEffect(
                 title = title,
-                radius = 8
             )
         } else {
             val listState = rememberLazyGridState()
