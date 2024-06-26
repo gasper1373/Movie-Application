@@ -29,7 +29,7 @@ fun NonFocusedTopBar(
         modifier = Modifier
             .background(Transparent)
             .padding(horizontal = 16.dp, vertical = 12.dp)
-            .height(24.dp)
+            .height(74.dp)
             .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx) }
     ) {
         NonFocusedSearchBar(
@@ -57,7 +57,7 @@ fun FocusedTopBar(
         modifier = Modifier
             .background(Transparent)
             .padding(horizontal = 16.dp, vertical = 12.dp)
-            .height(24.dp)
+            .height(74.dp)
             .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx) }
     ) {
         SearchBar(

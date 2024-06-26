@@ -157,7 +157,9 @@ fun BottomNavigationScreens(
                 bottomBarNavController = bottomBarNavController,
                 state = mainUiState,
                 onEvent = onEvent,
-                onClick = {}
+                onClick = {},
+                onRefresh = {},
+                refreshing = false
             )
         }
 
