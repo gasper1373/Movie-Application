@@ -33,7 +33,7 @@ class MediaRepositoryImpl @Inject constructor(
     override suspend fun getMoviesAndTvSeriesList(
         fetchFromRemote: Boolean,
         isRefresh: Boolean,
-        mediaType: String,
+        type: String,
         category: String,
         page: Int,
         apiKey: String,
@@ -42,7 +42,7 @@ class MediaRepositoryImpl @Inject constructor(
 
             emit(Resource.Loading(true))
 
-            val localMediaList = mediaDao.getMediaListByTypeAndCategory(mediaType, category)
+            val localMediaList = mediaDao.getMediaListByTypeAndCategory(type, category)
 
             val shouldJustLoadFromCache =
                 localMediaList.isNotEmpty() && !fetchFromRemote && !isRefresh
@@ -51,7 +51,7 @@ class MediaRepositoryImpl @Inject constructor(
                 emit(Resource.Success(
                     data = localMediaList.map {
                         it.toMedia(
-                            type = mediaType,
+                            type = type,
                             category = category
                         )
                     }
@@ -63,13 +63,13 @@ class MediaRepositoryImpl @Inject constructor(
 
             var searchPage = page
             if (isRefresh) {
-                mediaDao.deleteMediaByTypeAndCategory(mediaType, category)
+                mediaDao.deleteMediaByTypeAndCategory(type, category)
                 searchPage = 1
             }
 
             val remoteMediaList = try {
-                mediaApi.getTrendingList(
-                    mediaType, category, searchPage, apiKey
+                mediaApi.getMoviesAndTvSeriesList(
+                    type, category, searchPage, apiKey
                 ).results
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -86,14 +86,14 @@ class MediaRepositoryImpl @Inject constructor(
             remoteMediaList.let { mediaList ->
                 val media = mediaList.map {
                     it.toMedia(
-                        type = mediaType,
+                        type = type,
                         category = category
                     )
                 }
 
                 val entities = mediaList.map {
                     it.toMediaEntity(
-                        type = mediaType,
+                        type = type,
                         category = category,
                     )
                 }
@@ -112,7 +112,7 @@ class MediaRepositoryImpl @Inject constructor(
         fetchFromRemote: Boolean,
         isRefresh: Boolean,
         type: String,
-        timeWindow: String,
+        time: String,
         page: Int,
         apiKey: String,
     ): Flow<Resource<List<Media>>> {
@@ -122,8 +122,8 @@ class MediaRepositoryImpl @Inject constructor(
             val localMediaList = mediaDao.getTrendingMediaList(Constants.TRENDING)
 
 
-            val shouldJustLoadFromCache = localMediaList.isNotEmpty() && !fetchFromRemote
-            if (shouldJustLoadFromCache) {
+            val loadFromCache = localMediaList.isNotEmpty() && !fetchFromRemote
+            if (loadFromCache) {
 
                 emit(Resource.Success(
                     data = localMediaList.map {
@@ -147,7 +147,7 @@ class MediaRepositoryImpl @Inject constructor(
 
             val remoteMediaList = try {
                 mediaApi.getTrendingList(
-                    type, timeWindow, searchPage, apiKey
+                    type, time, searchPage, apiKey
                 ).results
             } catch (e: IOException) {
                 e.printStackTrace()

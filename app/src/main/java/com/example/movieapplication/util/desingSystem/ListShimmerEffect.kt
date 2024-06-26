@@ -28,8 +28,8 @@ fun ListShimmerEffect(
 ) {
     LazyVerticalGrid(
         modifier = Modifier.background(MaterialTheme.colorScheme.surface),
-        contentPadding = PaddingValues(top = 20.dp),
-        columns = GridCells.Fixed(2)
+        contentPadding = PaddingValues(top = 8.dp),
+        columns = GridCells.Fixed(2),
     ) {
         header {
             Row(
@@ -49,6 +49,7 @@ fun ListShimmerEffect(
                 )
             }
         }
+
         items(50) {
             Column(
                 modifier = Modifier
@@ -56,9 +57,7 @@ fun ListShimmerEffect(
                     .padding(
                         top = 16.dp, start = 8.dp, end = 8.dp
                     )
-                    .clip(
-                        RoundedCornerShape(24.dp)
-                    )
+                    .clip(RoundedCornerShape(24.dp))
                     .background(MaterialTheme.colorScheme.secondaryContainer)
             ) {
                 Box(
@@ -69,24 +68,29 @@ fun ListShimmerEffect(
                         .clip(RoundedCornerShape(20.dp))
                         .shimmerEffect()
                 )
+
                 Spacer(modifier = Modifier.height(8.dp))
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
                         .height(15.dp)
                         .padding(start = 12.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(24.dp))
                         .shimmerEffect()
                 )
+
                 Spacer(modifier = Modifier.height(6.dp))
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.7f)
                         .height(11.dp)
                         .padding(start = 12.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(20.dp))
                         .shimmerEffect()
                 )
+
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Box(
@@ -94,13 +98,13 @@ fun ListShimmerEffect(
                         .fillMaxWidth(0.6f)
                         .height(12.dp)
                         .padding(start = 11.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(20.dp))
                         .shimmerEffect()
                 )
+
                 Spacer(modifier = Modifier.height(15.dp))
             }
         }
-
     }
-
 }
+

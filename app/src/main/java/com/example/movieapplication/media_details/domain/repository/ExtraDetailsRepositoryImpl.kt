@@ -39,7 +39,7 @@ class ExtraDetailsRepositoryImpl @Inject constructor(
             val mediaEntity = mediaDao.getMediaById(id = id)
 
             val doesSimilarMediaListExist =
-                (mediaEntity.similarMediaList != null && mediaEntity.similarMediaList != "-1,-2")
+                (mediaEntity.similarMediaList != "-1,-2")
 
             if (!isRefresh && doesSimilarMediaListExist) {
 

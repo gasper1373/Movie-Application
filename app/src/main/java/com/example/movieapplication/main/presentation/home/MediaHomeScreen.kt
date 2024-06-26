@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -53,6 +54,7 @@ fun MediaHomeScreen(
     navController: NavController,
     bottomBarNavController: NavHostController,
     state: MainUiState,
+
     onClick: () -> Unit,
     onEvent: (MainUiEvents) -> Unit,
 ) {

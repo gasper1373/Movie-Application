@@ -40,6 +40,7 @@ fun Modifier.shimmerEffect(
                     MaterialTheme.colorScheme.secondaryContainer,
                     MaterialTheme.colorScheme.background
                 )
+
                 false -> listOf(
                     MaterialTheme.colorScheme.secondaryContainer,
                     MaterialTheme.colorScheme.background,

@@ -14,7 +14,7 @@ interface MediaRepository {
     suspend fun getMoviesAndTvSeriesList(
         fetchFromRemote: Boolean,
         isRefresh: Boolean,
-        mediaType: String,
+        type: String,
         category: String,
         page: Int,
         apiKey: String,
@@ -24,7 +24,7 @@ interface MediaRepository {
         fetchFromRemote: Boolean,
         isRefresh:Boolean,
         type: String,
-        timeWindow: String,
+        time: String,
         page: Int,
         apiKey: String,
     ): Flow<Resource<List<Media>>>

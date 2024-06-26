@@ -191,9 +191,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _refreshing.value = true
             delay(1500)
-            if (type != null) {
-                onEvent(MainUiEvents.Refresh(type = type))
-            }
+            onEvent(MainUiEvents.Refresh(type = type))
             _refreshing.value = false
         }
     }
