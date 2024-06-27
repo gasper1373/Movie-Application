@@ -41,7 +41,7 @@ fun AutoSwipe(
             onMediaClick = {},
             modifier = Modifier
                 .height(200.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(0.9f)
         )
     }
 }

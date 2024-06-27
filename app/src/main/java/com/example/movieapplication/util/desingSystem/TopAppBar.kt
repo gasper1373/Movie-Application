@@ -24,7 +24,6 @@ fun NonFocusedTopBar(
     toolbarOffsetHeightPx: Int,
     onClick: () -> Unit,
 ) {
-
     Box(
         modifier = Modifier
             .background(Transparent)
@@ -52,7 +51,6 @@ fun FocusedTopBar(
     searchScreenState: SearchScreenState,
     onSearch: (String) -> Unit = {},
 ) {
-
     Box(
         modifier = Modifier
             .background(Transparent)

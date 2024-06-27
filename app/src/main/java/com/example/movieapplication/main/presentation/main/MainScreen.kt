@@ -1,9 +1,7 @@
 package com.example.movieapplication.main.presentation.main
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LiveTv
@@ -11,16 +9,19 @@ import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LiveTv
 import androidx.compose.material.icons.outlined.LocalFireDepartment
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavBackStackEntry
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -28,11 +29,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.movieapplication.main.presentation.home.MediaHomeScreenSection
+import androidx.room.util.query
 import com.example.movieapplication.main.presentation.home.MediaHomeScreen
 import com.example.movieapplication.main.presentation.moviesAndTvSeries.MediaListScreen
+import com.example.movieapplication.search.presentation.SearchScreenViewModel
 import com.example.movieapplication.util.BottomNavRoute
 import com.example.movieapplication.util.Constants
+import com.example.movieapplication.util.desingSystem.MovieScaffold
+import com.example.movieapplication.util.desingSystem.SearchBar
 
 data class BottomNavigationItem(
     val title: String,
@@ -40,11 +44,12 @@ data class BottomNavigationItem(
     val unselectedIcon: ImageVector,
 )
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MediaMainScreen(
     navController: NavController,
     mainUiState: MainUiState,
-    onEvent: (MainUiEvents) -> Unit
+    onEvent: (MainUiEvents) -> Unit,
 ) {
 
     val items = listOf(
@@ -71,21 +76,10 @@ fun MediaMainScreen(
 
     val bottomBarNavController = rememberNavController()
 
-    Scaffold(
-        content = { paddingValues ->
-            BottomNavigationScreens(
-                selectedItem = selectedItem,
-                modifier = Modifier
-                    .padding(
-                        bottom = paddingValues.calculateBottomPadding()
-                    ),
-                navController = navController,
-                bottomBarNavController = bottomBarNavController,
-                mainUiState = mainUiState,
-                onEvent = onEvent
-            )
+    MovieScaffold(
+        topAppBar = {
+            // Custom top app bar content if needed
         },
-
         bottomBar = {
             NavigationBar {
                 items.forEachIndexed { index, item ->
@@ -129,10 +123,18 @@ fun MediaMainScreen(
                     )
                 }
             }
-
+        },
+        content = { paddingValues ->
+            BottomNavigationScreens(
+                selectedItem = selectedItem,
+                modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
+                navController = navController,
+                bottomBarNavController = bottomBarNavController,
+                mainUiState = mainUiState,
+                onEvent = onEvent
+            )
         }
     )
-
 }
 
 @Composable
@@ -142,7 +144,7 @@ fun BottomNavigationScreens(
     navController: NavController,
     bottomBarNavController: NavHostController,
     mainUiState: MainUiState,
-    onEvent: (MainUiEvents) -> Unit
+    onEvent: (MainUiEvents) -> Unit,
 ) {
 
     NavHost(
@@ -150,7 +152,6 @@ fun BottomNavigationScreens(
         navController = bottomBarNavController,
         startDestination = BottomNavRoute.MEDIA_HOME_SCREEN
     ) {
-
         composable(BottomNavRoute.MEDIA_HOME_SCREEN) {
             MediaHomeScreen(
                 navController = navController,
@@ -162,7 +163,6 @@ fun BottomNavigationScreens(
                 refreshing = false
             )
         }
-
         composable(
             "${BottomNavRoute.MEDIA_LIST_SCREEN}?type={type}",
             arguments = listOf(

@@ -3,8 +3,11 @@ package com.example.movieapplication.util.desingSystem
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +37,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movieapplication.search.presentation.SearchScreenState
@@ -150,4 +154,19 @@ fun NonFocusedSearchBar(
         )
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchBarPreview() {
+    MaterialTheme {
+        Column(Modifier.padding(16.dp)) {
+            SearchBar(
+                searchScreenState = SearchScreenState(searchQuery = ""),
+                onSearch = {}
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            NonFocusedSearchBar(placeholderText = "Search...")
+        }
+    }
 }

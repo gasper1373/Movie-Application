@@ -24,9 +24,7 @@ class SearchScreenViewModel @Inject constructor(
     private var searchJob: Job? = null
     fun onEvent(event: SearchScreenUiEvent) {
         when (event) {
-
             is SearchScreenUiEvent.OnSearchedItemClick -> {
-
             }
 
             is SearchScreenUiEvent.OnSearchQueryChanged -> {
@@ -40,16 +38,10 @@ class SearchScreenViewModel @Inject constructor(
                             searchList = emptyList()
                         )
                     }
-
                     //loadSearchList()
                 }
             }
-
-            is SearchScreenUiEvent.Refresh -> TODO()
-            is SearchScreenUiEvent.OnPaginate -> TODO()
+            else -> Unit
         }
-
-
     }
-
 }

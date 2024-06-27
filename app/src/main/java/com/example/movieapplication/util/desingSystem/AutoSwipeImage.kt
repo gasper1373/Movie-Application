@@ -80,7 +80,7 @@ fun AutoSwipeImage(
                                 brush = Brush.verticalGradient(
                                     colors = listOf(
                                         Color.Transparent,
-                                        Color.Blue
+                                        Color.Black
                                     )
                                 )
                             )

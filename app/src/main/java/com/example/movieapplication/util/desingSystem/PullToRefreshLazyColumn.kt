@@ -25,20 +25,19 @@ fun <T> PullToRefreshLazyColumn(
     content: @Composable (T) -> Unit,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
-    modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
 ) {
     val pullToRefreshState = rememberPullToRefreshState()
 
     Box(
-        modifier = modifier.nestedScroll(pullToRefreshState.nestedScrollConnection)
+        modifier = Modifier.nestedScroll(pullToRefreshState.nestedScrollConnection)
     ) {
         LazyColumn(
             state = lazyListState,
-            contentPadding = PaddingValues(top = 74.dp),
+            contentPadding = PaddingValues(top = 74.dp, bottom = 10.dp),
             modifier = Modifier
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+
         ) {
             items(items) {
                 content(it)

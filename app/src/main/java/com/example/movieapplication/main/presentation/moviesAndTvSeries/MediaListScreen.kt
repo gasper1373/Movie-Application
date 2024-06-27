@@ -12,20 +12,11 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,23 +31,11 @@ import com.example.movieapplication.util.Constants.recommendedListScreen
 import com.example.movieapplication.util.Constants.topRatedAllListScreen
 import com.example.movieapplication.util.Constants.trendingAllListScreen
 import com.example.movieapplication.util.Constants.tvSeriesScreen
+import com.example.movieapplication.util.desingSystem.ListShimmerEffect
 import com.example.movieapplication.util.desingSystem.MediaItem
 import com.example.movieapplication.util.desingSystem.NonFocusedTopBar
-import com.example.movieapplication.util.desingSystem.ListShimmerEffect
 import com.example.movieapplication.util.desingSystem.header
 import kotlin.math.roundToInt
-
-//@Composable
-//fun MediaListScreenRot(
-//    //navController: NavController,
-//    viewModel: MainViewModel = hiltViewModel(),
-//) {
-//    MediaListScreen(
-//        state = viewModel.mainUiState,
-//        onAction = viewModel::onAction
-//    )
-//
-//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,19 +49,7 @@ fun MediaListScreen(
     onRefresh: () -> Unit,
     onEvent: (MainUiEvents) -> Unit,
 ) {
-
-    val toolbarHeight = with(LocalDensity.current) { 24.dp.roundToPx().toFloat() }
     val toolbarOffsetHeightPx = remember { mutableFloatStateOf(0f) }
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                val delta = available.y
-                val newOffset = toolbarOffsetHeightPx.floatValue + delta
-                toolbarOffsetHeightPx.floatValue = newOffset.coerceIn(-toolbarHeight, 0f)
-                return Offset.Zero
-            }
-        }
-    }
     BackHandler(enabled = true) {
         selectedItem.value = 0
         TODO()
@@ -107,12 +74,12 @@ fun MediaListScreen(
         else -> ""
     }
 
-    val pullToRefreshState = rememberPullToRefreshState()
+    //TODO() PULL TO REFRESH STATE
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
-            .nestedScroll(pullToRefreshState.nestedScrollConnection)
     ) {
         if (mediaList.isEmpty()) {
             ListShimmerEffect(
@@ -152,41 +119,6 @@ fun MediaListScreen(
                 }
             }
         }
-
-        if (pullToRefreshState.isRefreshing) {
-            LaunchedEffect(true) {
-                onRefresh()
-            }
-        }
-        LaunchedEffect(refreshing) {
-            if (refreshing) {
-                pullToRefreshState.startRefresh()
-            } else {
-                pullToRefreshState.endRefresh()
-            }
-        }
-        PullToRefreshContainer(
-            state = pullToRefreshState,
-            Modifier
-                .align(Alignment.Center)
-                .padding(top = (16.dp))
-        )
-        NonFocusedTopBar(
-            toolbarOffsetHeightPx = toolbarOffsetHeightPx.floatValue.roundToInt(),
-            onClick = {/*TODO*/ })
     }
-
-
 }
 
-
-//@Preview
-//@Composable
-//private fun MediaListScreenPreview() {
-//    MovieApplicationTheme {
-//        MediaListScreen(
-//            state = (),
-//            onAction = {}
-//        )
-//    }
-//}
