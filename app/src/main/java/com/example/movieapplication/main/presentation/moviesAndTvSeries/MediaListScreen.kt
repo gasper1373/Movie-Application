@@ -33,9 +33,7 @@ import com.example.movieapplication.util.Constants.trendingAllListScreen
 import com.example.movieapplication.util.Constants.tvSeriesScreen
 import com.example.movieapplication.util.desingSystem.ListShimmerEffect
 import com.example.movieapplication.util.desingSystem.MediaItem
-import com.example.movieapplication.util.desingSystem.NonFocusedTopBar
 import com.example.movieapplication.util.desingSystem.header
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +47,6 @@ fun MediaListScreen(
     onRefresh: () -> Unit,
     onEvent: (MainUiEvents) -> Unit,
 ) {
-    val toolbarOffsetHeightPx = remember { mutableFloatStateOf(0f) }
     BackHandler(enabled = true) {
         selectedItem.value = 0
         TODO()
@@ -74,11 +71,10 @@ fun MediaListScreen(
         else -> ""
     }
 
-    //TODO() PULL TO REFRESH STATE
-
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(top = 58.dp)
             .background(MaterialTheme.colorScheme.surface)
     ) {
         if (mediaList.isEmpty()) {

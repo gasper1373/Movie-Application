@@ -4,19 +4,26 @@ package com.example.movieapplication.main.presentation.home
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -33,7 +40,6 @@ import com.example.movieapplication.util.Constants.topRatedAllListScreen
 import com.example.movieapplication.util.Constants.trendingAllListScreen
 import com.example.movieapplication.util.Constants.tvSeriesScreen
 import com.example.movieapplication.util.desingSystem.AutoSwipe
-import com.example.movieapplication.util.desingSystem.PullToRefreshLazyColumn
 import com.example.movieapplication.util.desingSystem.ShouldShowMediaHomeScreenSectionOrShimmer
 import com.example.movieapplication.util.desingSystem.shimmerEffect
 
@@ -42,7 +48,7 @@ fun MediaHomeScreen(
     navController: NavController,
     bottomBarNavController: NavHostController,
     state: MainUiState,
-    onClick: () -> Unit,
+    onClick: (Int) -> Unit,
     onEvent: (MainUiEvents) -> Unit,
     refreshing: Boolean,
     onRefresh: (String) -> Unit,
@@ -55,92 +61,82 @@ fun MediaHomeScreen(
     ) {
         (context as Activity).finish()
     }
-    val isRefreshing = remember { mutableStateOf(false) }
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
     ) {
-        PullToRefreshLazyColumn(
-            items = listOf(
-                trendingAllListScreen to state.trendingAllList,
-                "special" to state.specialList, // Special handling
-                tvSeriesScreen to state.tvSeriesList,
-                topRatedAllListScreen to state.topRatedAllList,
-                recommendedListScreen to state.recommendedAllList,
-            ),
-            content = { item ->
-                when (item.first) {
-                    trendingAllListScreen -> {
-                        ShouldShowMediaHomeScreenSectionOrShimmer(
-                            type = trendingAllListScreen,
-                            showShimmer = state.trendingAllList.isEmpty(),
-                            mainUiState = state,
-                            onClick = { /*TODO*/ },
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(top = 74.dp),
+        ) {
+            ShouldShowMediaHomeScreenSectionOrShimmer(
+                type = trendingAllListScreen,
+                showShimmer = state.trendingAllList.isEmpty(),
+                onClick = {},
+                mainUiState = state
+            )
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+            if (state.specialList.isEmpty()) {
+                Text(
+                    modifier = Modifier.padding(start = 16.dp),
+                    text = stringResource(id = R.string.special),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 20.sp
+                )
+                Box(
+                    modifier = Modifier
+                        .height(220.dp)
+                        .fillMaxWidth(0.9f)
+                        .padding(
+                            top = 20.dp,
+                            bottom = 12.dp
                         )
-                    }
+                        .clip(RoundedCornerShape(16))
+                        .shimmerEffect(false)
+                        .align(CenterHorizontally)
+                )
+            } else {
+                AutoSwipe(
+                    type = stringResource(id = R.string.special),
+                    onClick = {},
+                    mainUiState = state
+                )
+            }
 
-                    tvSeriesScreen -> {
-                        ShouldShowMediaHomeScreenSectionOrShimmer(
-                            type = tvSeriesScreen,
-                            showShimmer = state.tvSeriesList.isEmpty(),
-                            mainUiState = state,
-                            onClick = { /*TODO*/ },
-                        )
-                    }
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
-                    topRatedAllListScreen -> {
-                        ShouldShowMediaHomeScreenSectionOrShimmer(
-                            type = topRatedAllListScreen,
-                            showShimmer = state.topRatedAllList.isEmpty(),
-                            mainUiState = state,
-                            onClick = { /*TODO*/ },
-                        )
-                    }
+            ShouldShowMediaHomeScreenSectionOrShimmer(
+                type = tvSeriesScreen,
+                showShimmer = state.tvSeriesList.isEmpty(),
+                onClick = {},
+                mainUiState = state
+            )
 
-                    recommendedListScreen -> {
-                        ShouldShowMediaHomeScreenSectionOrShimmer(
-                            type = recommendedListScreen,
-                            showShimmer = state.recommendedAllList.isEmpty(),
-                            mainUiState = state,
-                            onClick = { /*TODO*/ },
-                        )
-                    }
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
-                    "special" -> {
-                        if (state.specialList.isEmpty()) {
-                            Text(
-                                modifier = Modifier.padding(start = 16.dp),
-                                text = stringResource(id = R.string.special),
-                                color = MaterialTheme.colorScheme.onBackground,
-                                fontSize = 20.sp
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .height(220.dp)
-                                    .fillMaxWidth(0.9f)
-                                    .padding(
-                                        top = 20.dp,
-                                        bottom = 12.dp
-                                    )
-                                    .clip(RoundedCornerShape(16.dp))
-                                    .shimmerEffect(false)
-                            )
-                        } else {
-                            AutoSwipe(
-                                type = stringResource(id = R.string.special),
-                                onClick = { /*TODO*/ },
-                                mainUiState = state
-                            )
-                        }
-                    }
-                }
-            },
-            isRefreshing = refreshing,
-            onRefresh = {
-                onRefresh("")
-            },
+            ShouldShowMediaHomeScreenSectionOrShimmer(
+                type = topRatedAllListScreen,
+                showShimmer = state.topRatedAllList.isEmpty(),
+                onClick = {},
+                mainUiState = state
+            )
 
-        )
+            Spacer(modifier = Modifier.padding(vertical = 16.dp))
+
+            ShouldShowMediaHomeScreenSectionOrShimmer(
+                type = recommendedListScreen,
+                showShimmer = state.recommendedAllList.isEmpty(),
+                onClick = {},
+                mainUiState = state
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 16.dp))
+        }
     }
-
 }

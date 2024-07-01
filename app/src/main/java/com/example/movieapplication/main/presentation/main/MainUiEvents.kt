@@ -6,4 +6,5 @@ sealed class MainUiEvents {
     data class Refresh(val type: String) : MainUiEvents()
     data class OnPaginate(val type: String) : MainUiEvents()
     data class Error(val error : UiText): MainUiEvents()
+    data class OnClick(val type: Int): MainUiEvents()
 }

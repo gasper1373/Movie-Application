@@ -9,4 +9,5 @@ data class SearchScreenState(
     val isRefreshing: Boolean = false,
     val searchQuery: String = "",
     val searchList:List<Media> = emptyList(),
+    val isFocused: Boolean = false
 )

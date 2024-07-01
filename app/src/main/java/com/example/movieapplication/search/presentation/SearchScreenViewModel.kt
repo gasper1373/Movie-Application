@@ -4,22 +4,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapplication.main.domain.repository.MediaRepository
 import com.example.movieapplication.search.domain.repository.SearchRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class SearchScreenViewModel @Inject constructor(
     private val mediaRepository: MediaRepository,
     private val searchRepository: SearchRepository,
 ) : ViewModel() {
 
-
     private val _searchScreenState = MutableStateFlow(SearchScreenState())
-    val searchScreenState = _searchScreenState.asStateFlow()
+    //val searchScreenState = _searchScreenState.asStateFlow()
+    val searchScreenState : StateFlow<SearchScreenState> = _searchScreenState
 
     private var searchJob: Job? = null
     fun onEvent(event: SearchScreenUiEvent) {

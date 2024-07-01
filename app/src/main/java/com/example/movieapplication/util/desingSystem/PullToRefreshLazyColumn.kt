@@ -30,7 +30,8 @@ fun <T> PullToRefreshLazyColumn(
     val pullToRefreshState = rememberPullToRefreshState()
 
     Box(
-        modifier = Modifier.nestedScroll(pullToRefreshState.nestedScrollConnection)
+        modifier = Modifier
+            .nestedScroll(pullToRefreshState.nestedScrollConnection)
     ) {
         LazyColumn(
             state = lazyListState,
@@ -38,21 +39,21 @@ fun <T> PullToRefreshLazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
 
-        ) {
+            ) {
             items(items) {
                 content(it)
             }
         }
-        if(pullToRefreshState.isRefreshing){
+        if (pullToRefreshState.isRefreshing) {
             LaunchedEffect(true) {
                 onRefresh()
             }
         }
 
         LaunchedEffect(isRefreshing) {
-            if(isRefreshing){
+            if (isRefreshing) {
                 pullToRefreshState.startRefresh()
-            }else{
+            } else {
                 pullToRefreshState.endRefresh()
             }
         }

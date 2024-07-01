@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.movieapplication.ui.theme.MovieApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +21,8 @@ class MainActivity : ComponentActivity() {
                 val mainUiState = mainViewModel.mainUiState.collectAsState().value
 
                 Navigation(
-                    mainUiState = mainUiState, onEvent = mainViewModel::onEvent
+                    mainUiState = mainUiState, onEvent = mainViewModel::onEvent,
+
                 )
             }
         }

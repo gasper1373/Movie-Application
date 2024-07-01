@@ -181,6 +181,8 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
+
+            is MainUiEvents.OnClick -> TODO()
         }
     }
 
