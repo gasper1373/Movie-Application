@@ -13,12 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.movieapplication.main.presentation.main.MainUiState
 
 @Composable
 fun AutoSwipe(
     type: String,
-    onClick: () -> Unit,
+    navController: NavController,
     modifier: Modifier = Modifier,
     mainUiState: MainUiState,
 ) {
@@ -38,7 +39,7 @@ fun AutoSwipe(
         }
         AutoSwipeImage(
             mediaList = mainUiState.specialList.take(7),
-            onMediaClick = {},
+           navController = navController,
             modifier = Modifier
                 .height(200.dp)
                 .fillMaxWidth(0.9f)

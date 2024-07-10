@@ -24,16 +24,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import com.example.movieapplication.R
 import com.example.movieapplication.main.domain.models.Media
 import com.example.movieapplication.media_details.presentation.details.MediaDetailsEvents
 import com.example.movieapplication.media_details.presentation.details.MediaDetailsScreenState
 import com.example.movieapplication.media_details.presentation.details.components.MovieImage
+import com.example.movieapplication.util.Route
 
 @Composable
 fun VideoSection(
-    onClick: () -> Unit,
+    navController: NavController,
     state: MediaDetailsScreenState,
     media: Media,
     imageState: AsyncImagePainter.State,
@@ -48,7 +50,9 @@ fun VideoSection(
             .clickable {
                 if (state.videosList.isNotEmpty()) {
                     onEvent(MediaDetailsEvents.NavigateToVideo)
-                    /*TODO*/
+                    navController.navigate(
+                        "${Route.WATCH_VIDEO_SCREEN}?videoId=${state.videoId}"
+                    )
                 } else {
                     Toast
                         .makeText(

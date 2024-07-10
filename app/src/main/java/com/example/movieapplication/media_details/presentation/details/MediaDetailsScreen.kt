@@ -5,6 +5,7 @@ package com.example.movieapplication.media_details.presentation.details
 import android.provider.MediaStore.Video
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
@@ -37,6 +40,7 @@ import com.example.movieapplication.main.presentation.moviesAndTvSeries.PosterSe
 import com.example.movieapplication.main.presentation.moviesAndTvSeries.SimilarMediaSection
 import com.example.movieapplication.main.presentation.moviesAndTvSeries.VideoSection
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MediaDetailsScreen(
     modifier: Modifier = Modifier,
@@ -61,46 +65,69 @@ fun MediaDetailsScreen(
     var averageColor by remember {
         mutableStateOf(surface)
     }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
             .nestedScroll(pullToRefreshState.nestedScrollConnection)
     ) {
-        Box(
+
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            VideoSection(
-                onClick = { /*TODO*/ },
-                state = state,
-                media = media,
-                imageState = imagePainter.state,
-                onEvent = onEvent   //TODO
-            ) { color ->
-                averageColor = color
-            }
-            Row(
+
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
             ) {
-                PosterSection(media = media) {}
-                Spacer(modifier = Modifier.width(12.dp))
-                InfoSection(media = media, state = state)
-                Spacer(modifier = Modifier.width(8.dp))
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        OverviewSection(media = media)
-        SimilarMediaSection(
-            onClick = { /*TODO*/ },
-            media = media,
-            state = state
-        )
-        Spacer(modifier = modifier.height(16.dp))
-        PullToRefreshContainer(state = pullToRefreshState)
 
+                VideoSection(
+                    navController = navController,
+                    state = MediaDetailsScreenState(),
+                    media = media,
+                    imageState = imagePainter.state,
+                    onEvent = onEvent
+                ) { color ->
+                    averageColor = color
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                ) {
+
+                    PosterSection(media = media) {}
+
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    InfoSection(
+                        media = media,
+                        state = MediaDetailsScreenState()
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                }
+
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OverviewSection(media = media)
+
+            SimilarMediaSection(
+                navController = navController,
+                media = media,
+                state = MediaDetailsScreenState()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+        }
     }
 }

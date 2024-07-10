@@ -2,7 +2,7 @@ package com.example.movieapplication.main.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapplication.main.data.remote.api.GenresApi.Companion.API_KEY
+import com.example.movieapplication.main.data.remote.api.GenresApi.Companion.api_key
 import com.example.movieapplication.main.domain.models.Media
 import com.example.movieapplication.main.domain.repository.GenreRepository
 import com.example.movieapplication.main.domain.repository.MediaRepository
@@ -32,8 +32,6 @@ class MainViewModel @Inject constructor(
 
     private val _mainUiState = MutableStateFlow(MainUiState())
     val mainUiState = _mainUiState.asStateFlow()
-
-    //TODO() splashScreen
 
     init {
         load()
@@ -68,88 +66,7 @@ class MainViewModel @Inject constructor(
                         isLoading = true
                     )
                 }
-                loadGenres(
-                    fetchFromRemote = true,
-                    isMovies = true
-                )
-                loadGenres(
-                    fetchFromRemote = true,
-                    isMovies = false
-                )
-                when (event.type) {
-                    Constants.homeScreen -> {
-                        loadTrendingAll(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                        loadNowPlayingMovies(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                        loadTopRatedMovies(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                        loadTopRatedSeries(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                    }
-
-                    Constants.popularScreen -> {
-                        loadPopularMovies(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                    }
-
-                    Constants.trendingAllListScreen -> {
-                        loadTrendingAll(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                    }
-
-                    Constants.tvSeriesScreen -> {
-                        loadPopularTvSeries(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                        loadTopRatedSeries(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                    }
-
-                    Constants.topRatedAllListScreen -> {
-                        loadTopRatedMovies(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                        loadTopRatedSeries(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-
-                        // calling it to have equal top rated and tv series items,
-                        loadPopularTvSeries(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                    }
-
-                    Constants.recommendedListScreen -> {
-                        loadNowPlayingMovies(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                        loadTopRatedSeries(
-                            fetchFromRemote = true,
-                            isRefresh = true
-                        )
-                    }
-
-                }
+                onRefresh(event.type)
             }
 
             is MainUiEvents.Error -> {}
@@ -192,8 +109,44 @@ class MainViewModel @Inject constructor(
     fun onRefresh(type: String) {
         viewModelScope.launch {
             _refreshing.value = true
-            delay(1500)
-            onEvent(MainUiEvents.Refresh(type = type))
+            // Load genres for both movies and TV shows
+            loadGenres(fetchFromRemote = true, isMovies = true)
+            loadGenres(fetchFromRemote = true, isMovies = false)
+
+            when (type) {
+                Constants.homeScreen -> {
+                    loadTrendingAll(fetchFromRemote = true, isRefresh = true)
+                    loadNowPlayingMovies(fetchFromRemote = true, isRefresh = true)
+                    loadTopRatedMovies(fetchFromRemote = true, isRefresh = true)
+                    loadTopRatedSeries(fetchFromRemote = true, isRefresh = true)
+                }
+
+                Constants.popularScreen -> {
+                    loadPopularMovies(fetchFromRemote = true, isRefresh = true)
+                }
+
+                Constants.trendingAllListScreen -> {
+                    loadTrendingAll(fetchFromRemote = true, isRefresh = true)
+                }
+
+                Constants.tvSeriesScreen -> {
+                    loadPopularTvSeries(fetchFromRemote = true, isRefresh = true)
+                    loadTopRatedSeries(fetchFromRemote = true, isRefresh = true)
+                }
+
+                Constants.topRatedAllListScreen -> {
+                    loadTopRatedMovies(fetchFromRemote = true, isRefresh = true)
+                    loadTopRatedSeries(fetchFromRemote = true, isRefresh = true)
+                    loadPopularTvSeries(fetchFromRemote = true, isRefresh = true)
+                }
+
+                Constants.recommendedListScreen -> {
+                    loadNowPlayingMovies(fetchFromRemote = true, isRefresh = true)
+                    loadTopRatedSeries(fetchFromRemote = true, isRefresh = true)
+                }
+            }
+
+            delay(1500) // Simulating network delay
             _refreshing.value = false
         }
     }
@@ -201,7 +154,7 @@ class MainViewModel @Inject constructor(
     private fun loadGenres(fetchFromRemote: Boolean, isMovies: Boolean) {
         viewModelScope.launch {
             if (isMovies) {
-                genreRepository.getGenres(fetchFromRemote, MOVIE, API_KEY)
+                genreRepository.getGenres(fetchFromRemote, MOVIE, api_key)
                     .collect { result ->
                         when (result) {
                             is Resource.Success -> {
@@ -217,7 +170,7 @@ class MainViewModel @Inject constructor(
                     }
             } else
                 genreRepository
-                    .getGenres(fetchFromRemote, TV, API_KEY)
+                    .getGenres(fetchFromRemote, TV, api_key)
                     .collect { result ->
                         when (result) {
                             is Resource.Success -> {
@@ -244,7 +197,7 @@ class MainViewModel @Inject constructor(
                 TV,
                 TOP_RATED,
                 mainUiState.value.topRatedTvSeriesPage,
-                API_KEY
+                api_key
             ).collect { result ->
                 when (result) {
                     is Resource.Success -> {
@@ -308,7 +261,7 @@ class MainViewModel @Inject constructor(
                 ALL,
                 TRENDING_TIME,
                 _mainUiState.value.trendingAllPage,
-                API_KEY
+                api_key
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {
@@ -360,7 +313,7 @@ class MainViewModel @Inject constructor(
                 MOVIE,
                 NOW_PLAYING,
                 mainUiState.value.nowPlayingMoviesPage,
-                API_KEY
+                api_key
             ).collect { result ->
                 when (result) {
                     is Resource.Success -> {
@@ -415,7 +368,7 @@ class MainViewModel @Inject constructor(
                 MOVIE,
                 TOP_RATED,
                 mainUiState.value.topRatedMoviesPage,
-                API_KEY
+                api_key
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {
@@ -457,7 +410,7 @@ class MainViewModel @Inject constructor(
                 MOVIE,
                 POPULAR,
                 mainUiState.value.popularMoviesPage,
-                API_KEY
+                api_key
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {
@@ -503,7 +456,7 @@ class MainViewModel @Inject constructor(
                     MOVIE,
                     POPULAR,
                     mainUiState.value.popularMoviesPage,
-                    API_KEY
+                    api_key
                 )
                 .collect { result ->
                     when (result) {

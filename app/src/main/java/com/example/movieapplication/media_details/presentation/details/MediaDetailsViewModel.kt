@@ -2,9 +2,8 @@ package com.example.movieapplication.media_details.presentation.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapplication.main.data.remote.api.GenresApi.Companion.API_KEY
+import com.example.movieapplication.main.data.remote.api.GenresApi.Companion.api_key
 import com.example.movieapplication.main.domain.repository.MediaRepository
-import com.example.movieapplication.main.presentation.main.MainUiEvents
 import com.example.movieapplication.media_details.data.repository.DetailsRepository
 import com.example.movieapplication.media_details.data.repository.ExtraDetailsRepository
 import com.example.movieapplication.media_details.domain.usecase.MinutesToReadTime
@@ -89,7 +88,7 @@ class MediaDetailsViewModel @Inject constructor(
             extraDetailsRepository.getVideoList(
                 id = mediaDetailsScreenState.value.media?.id ?: 0,
                 isRefresh = isRefresh,
-                apiKey = API_KEY
+                apiKey = api_key
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {
@@ -121,7 +120,7 @@ class MediaDetailsViewModel @Inject constructor(
                 id = mediaDetailsScreenState.value.media?.id ?: 0,
                 type = mediaDetailsScreenState.value.media?.media_type ?: "",
                 page = 1,
-                apiKey = API_KEY
+                apiKey = api_key
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {
@@ -173,7 +172,7 @@ class MediaDetailsViewModel @Inject constructor(
                 id = mediaDetailsScreenState.value.media?.id ?: 0,
                 type = mediaDetailsScreenState.value.media?.media_type ?: "",
                 isRefresh = isRefresh,
-                apiKey = API_KEY
+                apiKey = api_key
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {

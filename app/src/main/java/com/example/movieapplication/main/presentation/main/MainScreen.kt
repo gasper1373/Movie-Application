@@ -1,12 +1,9 @@
 package com.example.movieapplication.main.presentation.main
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LiveTv
@@ -21,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -41,7 +37,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.room.util.query
 import com.example.movieapplication.main.presentation.home.MediaHomeScreen
 import com.example.movieapplication.main.presentation.moviesAndTvSeries.MediaListScreen
 import com.example.movieapplication.search.presentation.SearchScreenUiEvent
@@ -96,6 +91,7 @@ fun MediaMainScreen(
     val searchState by searchScreenViewModel.searchScreenState.collectAsState()
 
     val bottomBarNavController = rememberNavController()
+    val refreshing by viewModel.refreshing.collectAsState()
 
     MovieScaffold(
         modifier = Modifier
@@ -168,10 +164,12 @@ fun MediaMainScreen(
                     navController = navController,
                     bottomBarNavController = bottomBarNavController,
                     mainUiState = mainUiState,
-                    modifier = Modifier.padding(vertical = 12.dp)
+                    refreshing = refreshing,
+                    onRefresh = {},
+                    modifier = Modifier.padding(bottom = 74.dp)
                 ) {}
-            }
-        )
+
+        })
 }
 
 @Composable
@@ -181,6 +179,8 @@ fun BottomNavigationScreens(
     navController: NavController,
     bottomBarNavController: NavHostController,
     mainUiState: MainUiState,
+    refreshing : Boolean,
+    onRefresh : () -> Unit,
     onEvent: (MainUiEvents) -> Unit,
 ) {
     NavHost(
@@ -193,10 +193,8 @@ fun BottomNavigationScreens(
                 navController = navController,
                 bottomBarNavController = bottomBarNavController,
                 state = mainUiState,
-                onEvent = onEvent,
-                onClick = {},
-                onRefresh = {},
-                refreshing = false
+                refreshing = refreshing,
+                onRefresh = onRefresh
             )
         }
         composable(
@@ -214,8 +212,8 @@ fun BottomNavigationScreens(
                 navBackStackEntry = navBackStackEntry,
                 state = mainUiState,
                 onEvent = onEvent,
-                refreshing = false,
-                onRefresh = {}
+                refreshing = refreshing,
+                onRefresh = onRefresh
             )
         }
     }

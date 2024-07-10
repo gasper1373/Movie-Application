@@ -70,12 +70,3 @@ fun PosterSection(
         }
     }
 }
-
-@Preview
-@Composable
-fun PosterSectionPreview(){
-
-    MovieApplicationTheme {
-
-    }
-}

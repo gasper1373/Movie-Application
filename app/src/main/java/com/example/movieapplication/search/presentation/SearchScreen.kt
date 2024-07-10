@@ -44,7 +44,7 @@ import com.example.movieapplication.util.desingSystem.FocusedTopBar
             items(searchScreenState.searchList.size) {
                 SearchMediaItem(
                     media = searchScreenState.searchList[it],
-                    onEvent = {},
+                    onEvent = { TODO() },
                     mainUiState = state,
                 )
                 if (it >= searchViewModel.searchScreenState.value.searchList.size - 1 && !state.isLoading) {

@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.movieapplication.main.domain.models.Media
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ import kotlinx.coroutines.launch
 fun AutoSwipeImage(
     modifier: Modifier = Modifier,
     mediaList: List<Media>,
-    onMediaClick: (Int) -> Unit,
+    navController: NavController,
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -69,7 +70,7 @@ fun AutoSwipeImage(
                 ) {
                     Item(
                         media = mediaList[index],
-                        onMediaClick = {},
+                        navController = navController,
                         modifier = Modifier.fillMaxSize()
                     )
                     Box(

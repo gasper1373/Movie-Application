@@ -17,6 +17,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
 import com.example.movieapplication.R
 import com.example.movieapplication.main.presentation.home.MediaHomeScreenSection
 import com.example.movieapplication.main.presentation.main.MainUiState
@@ -27,7 +30,8 @@ fun ShouldShowMediaHomeScreenSectionOrShimmer(
     type: String,
     showShimmer: Boolean,
     mainUiState: MainUiState,
-    onClick: () -> Unit,
+    navController: NavController,
+    navHostController: NavHostController,
 ) {
 
     val title = when (type) {
@@ -64,8 +68,8 @@ fun ShouldShowMediaHomeScreenSectionOrShimmer(
     } else {
         MediaHomeScreenSection(
           type =  type,
-            onBottomClick = {},
-            onClick = {},
+            navController = navController,
+            bottomBarNavController = navHostController,
             state =  mainUiState
         )
     }

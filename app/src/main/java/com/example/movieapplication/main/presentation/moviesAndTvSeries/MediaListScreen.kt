@@ -33,6 +33,7 @@ import com.example.movieapplication.util.Constants.trendingAllListScreen
 import com.example.movieapplication.util.Constants.tvSeriesScreen
 import com.example.movieapplication.util.desingSystem.ListShimmerEffect
 import com.example.movieapplication.util.desingSystem.MediaItem
+import com.example.movieapplication.util.desingSystem.PullToRefreshLazyGrid
 import com.example.movieapplication.util.desingSystem.header
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,11 +71,10 @@ fun MediaListScreen(
         popularScreen -> stringResource(id = R.string.popular)
         else -> ""
     }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 58.dp)
+            .padding(top = 18.dp)
             .background(MaterialTheme.colorScheme.surface)
     ) {
         if (mediaList.isEmpty()) {
@@ -83,12 +83,13 @@ fun MediaListScreen(
             )
         } else {
             val listState = rememberLazyGridState()
-            LazyVerticalGrid(
-                state = listState,
-                contentPadding = PaddingValues(top = 24.dp),
-                columns = GridCells.Adaptive(190.dp)
-            ) {
-                header {
+            PullToRefreshLazyGrid(
+                items = mediaList,
+                isRefreshing = refreshing,
+                onRefresh = onRefresh,
+                lazyGridState = listState,
+                columns = GridCells.Adaptive(190.dp),
+                header = {
                     Text(
                         modifier = Modifier
                             .padding(
@@ -99,21 +100,15 @@ fun MediaListScreen(
                         color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 20.sp
                     )
-                }
-                items(mediaList.size) { i ->
+                },
+                content = { item ->
                     MediaItem(
-                        media = mediaList[i],
-                        onClick = { /*TODO*/ },
+                        media = item,
+                        navController = navController,
                         mainUiState = state,
-                        onEvents = {/*TODO*/ }
+                        onEvents = onEvent
                     )
-                    if (i >= mediaList.size - 1 && !state.isLoading) {
-                        if (type != null) {
-                            onEvent(MainUiEvents.OnPaginate(type = type))
-                        }
-                    }
-                }
-            }
+                })
         }
     }
 }

@@ -18,16 +18,19 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.movieapplication.R
 import com.example.movieapplication.main.presentation.main.MainUiState
+import com.example.movieapplication.util.BottomNavRoute
 import com.example.movieapplication.util.Constants
 import com.example.movieapplication.util.desingSystem.Item
 
 @Composable
 fun MediaHomeScreenSection(
     type: String,
-    onClick: () -> Unit,
-    onBottomClick: () -> Unit,
+    navController: NavController,
+    bottomBarNavController: NavHostController,
     state: MainUiState,
 ) {
     val title = when (type) {
@@ -82,7 +85,9 @@ fun MediaHomeScreenSection(
                 modifier = Modifier
                     .alpha(0.7f)
                     .clickable {
-                        /*TODO*/
+                        bottomBarNavController.navigate(
+                            "${BottomNavRoute.MEDIA_LIST_SCREEN}?type=${type}"
+                        )
                     },
                 text = stringResource(id = R.string.see_all),
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -97,7 +102,7 @@ fun MediaHomeScreenSection(
                 }
                 Item(
                     media = mediaList[it],
-                    onMediaClick = { /*TODO*/ },
+                    navController = navController,
                     modifier = Modifier
                         .height(200.dp)
                         .width(150.dp)

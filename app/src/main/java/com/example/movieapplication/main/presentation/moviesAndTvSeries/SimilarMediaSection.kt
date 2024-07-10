@@ -19,14 +19,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.movieapplication.R
 import com.example.movieapplication.main.domain.models.Media
 import com.example.movieapplication.media_details.presentation.details.MediaDetailsScreenState
+import com.example.movieapplication.util.Route
 import com.example.movieapplication.util.desingSystem.Item
 
 @Composable
 fun SimilarMediaSection(
-    onClick:()->Unit,
+    navController: NavController,
     media: Media,
     state: MediaDetailsScreenState,
 ) {
@@ -54,7 +56,9 @@ fun SimilarMediaSection(
                     modifier = Modifier
                         .alpha(0.85f)
                         .clickable {
-                            onClick(/*TODO*/)
+                            navController.navigate(
+                                "${Route.MEDIA_DETAILS_SCREEN}?id=${media.id}&type=${media.media_type}&category=${media.category}"
+                            )
 
                         },
                     text = stringResource(id = R.string.see_all),
@@ -73,9 +77,7 @@ fun SimilarMediaSection(
 
                     Item(
                         media = mediaList[it],
-                        onMediaClick = {
-                            /*TODO*/
-                        },
+                       navController = navController ,
                         modifier = Modifier
                             .height(200.dp)
                             .width(150.dp)

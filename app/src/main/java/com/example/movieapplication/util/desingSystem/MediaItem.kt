@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -49,15 +50,16 @@ import com.example.movieapplication.main.domain.models.Media
 import com.example.movieapplication.main.presentation.main.MainUiState
 import com.example.movieapplication.main.presentation.main.MainUiEvents
 import com.example.movieapplication.util.Constants
+import com.example.movieapplication.util.Route
 import com.example.movieapplication.util.getAverageColor
 
 @Composable
 fun MediaItem(
     media: Media,
-    onClick: () -> Unit,
     mainUiState: MainUiState,
     onEvents: (MainUiEvents) -> Unit,
     modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     val imageUrl = "${IMAGE_BASE_URL}${media.poster_path}"
 
@@ -96,7 +98,9 @@ fun MediaItem(
                     )
                 )
                 .clickable {
-                    onClick(/*TODO()*/)
+                    navController.navigate(
+                        "${Route.MEDIA_DETAILS_SCREEN}?id=${media.id}&type=${media.media_type}&category=${media.category}"
+                    )
                 }
         ) {
             Box(
